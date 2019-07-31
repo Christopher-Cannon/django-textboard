@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form method='POST'> {% csrf_token %}
+  {{ t_form.as_p }}
+  {{ p_form.as_p }}
+  <input type="submit" value="Create new thread">
+</form>
+
+{% for instance in object_list %}
+  <p><a href="/{{ instance.id }}/">{{ instance.subject }}</a></p>
+{% endfor %}
+{% endblock %}

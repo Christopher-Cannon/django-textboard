@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form action='.' method='POST'> {% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" value="Create new post">
+</form>
+
+<h1>{{ thread.subject }}</h1>
+
+{% for instance in object_list %}
+  <hr>
+  <h2>{{ instance.name }} - {{ instance.post_time }}</h2>
+
+  <p>{{ instance.content }}</p>
+{% endfor %}
+{% endblock %}

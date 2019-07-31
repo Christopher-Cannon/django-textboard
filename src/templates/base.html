@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <title>Textboard</title>
+
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static '/simple_reset.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/style.css' %}">
+  </head>
+  <body>
+    <h1><a href="/">Textboard</a></h1>
+
+    <h2>{{ STATIC_URL }}</h2>
+
+    {% block content %}{% endblock %}
+  </body>
+</html>
