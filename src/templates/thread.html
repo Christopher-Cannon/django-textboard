@@ -6,12 +6,14 @@
   <input type="submit" value="Create new post">
 </form>
 
-<h1>{{ thread.subject }}</h1>
+<hr>
+
+<h3>{{ thread.subject }}</h3>
 
 {% for instance in object_list %}
-  <hr>
-  <h2>{{ instance.name }} - {{ instance.post_time }}</h2>
-
-  <p>{{ instance.content }}</p>
+  <div class='post-box'>
+    <p>#{{ instance.id }}: {{ instance.name }} - {{ instance.post_time }}</p>
+    <p>{{ instance.content }}</p>
+  </div>
 {% endfor %}
 {% endblock %}

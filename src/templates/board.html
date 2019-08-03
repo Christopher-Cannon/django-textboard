@@ -1,13 +1,29 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<hr>
+
+<h2>Board</h2>
+
 <form method='POST'> {% csrf_token %}
   {{ t_form.as_p }}
   {{ p_form.as_p }}
   <input type="submit" value="Create new thread">
 </form>
 
-{% for instance in object_list %}
-  <p><a href="/{{ instance.id }}/">{{ instance.subject }}</a></p>
-{% endfor %}
+<div class='grid'>
+  {% for thread in thread_list %}
+    <div class='post-box'>
+      {% for post in op_posts %}
+        {% if post.thread_id == thread.id %}
+          <p>
+            <a href="/{{ thread.id }}/">{{ thread.subject }}</a>
+            #{{ post.id }}: {{ post.name }} - {{ post.post_time }}
+          </p>
+          <p>{{ post.content }}</p>
+        {% endif %}
+      {% endfor %}
+    </div>
+  {% endfor %}
+</div>
 {% endblock %}

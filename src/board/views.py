@@ -5,7 +5,12 @@ from .models import Thread, Post
 
 # Create your views here.
 def board_view(request):
-    queryset = Thread.objects.all()
+    thread_list = Thread.objects.all()
+    op_posts = []
+
+    for t in thread_list:
+        op_post = Post.objects.filter(thread_id=t.id).earliest('post_time')
+        op_posts.append(op_post)
 
     t_form = ThreadForm(request.POST or None)
     p_form = PostForm(request.POST or None)
@@ -24,9 +29,9 @@ def board_view(request):
 
         return redirect('/{}/'.format(new_thread.id))
 
-
     context = {
-        "object_list": queryset,
+        "thread_list": thread_list,
+        "op_posts": op_posts,
         "t_form": t_form,
         "p_form": p_form
     }

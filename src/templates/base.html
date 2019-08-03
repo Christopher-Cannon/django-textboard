@@ -8,10 +8,10 @@
     <link rel="stylesheet" type="text/css" href="{% static '/style.css' %}">
   </head>
   <body>
-    <h1><a href="/">Textboard</a></h1>
+    <div class='page'>
+      <h1><a href="/">Textboard</a></h1>
 
-    <h2>{{ STATIC_URL }}</h2>
-
-    {% block content %}{% endblock %}
+      {% block content %}{% endblock %}
+    </div>
   </body>
 </html>
