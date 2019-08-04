@@ -1,7 +1,23 @@
+import socket
+from .modules import hex
 from django.shortcuts import render, get_object_or_404, redirect
 
 from .forms import ThreadForm, PostForm
 from .models import Thread, Post
+
+def get_ip_address(request):
+    try:
+        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+
+        if x_forwarded_for:
+            ip = x_forwarded_for.split(',')[0]
+        else:
+            ip = request.META.get('REMOTE_ADDR')
+
+        socket.inet_aton(ip)
+        return ip
+    except socket.error:
+        return False
 
 # Create your views here.
 def board_view(request):
@@ -24,7 +40,10 @@ def board_view(request):
         else:
             name = request.POST['name']
 
-        new_post = Post(name=name, content=request.POST['content'], thread=new_thread)
+        ipaddr = get_ip_address(request)
+        hex_code = hex.get_hex_id(ipaddr)
+
+        new_post = Post(name=name, content=request.POST['content'], thread=new_thread, ip=ipaddr, hex_id=hex_code)
         new_post.save()
 
         return redirect('/{}/'.format(new_thread.id))
@@ -49,7 +68,10 @@ def thread_view(request, id):
         else:
             name = request.POST['name']
 
-        new_post = Post(name=name, content=request.POST['content'], thread=thread)
+        ipaddr = get_ip_address(request)
+        hex_code = hex.get_hex_id(ipaddr)
+
+        new_post = Post(name=name, content=request.POST['content'], thread=thread, ip=ipaddr, hex_id=hex_code)
         new_post.save()
 
         form = PostForm()

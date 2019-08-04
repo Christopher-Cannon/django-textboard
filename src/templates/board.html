@@ -16,10 +16,7 @@
     <div class='post-box'>
       {% for post in op_posts %}
         {% if post.thread_id == thread.id %}
-          <p>
-            <a href="/{{ thread.id }}/">{{ thread.subject }}</a>
-            #{{ post.id }}: {{ post.name }} - {{ post.post_time }}
-          </p>
+          <p><a href="/{{ thread.id }}/">{{ thread.subject }}</a></p>
           <p>{{ post.content }}</p>
         {% endif %}
       {% endfor %}

@@ -16,7 +16,7 @@ body {
 }
 
 p, input, textarea {
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 textarea {
@@ -76,8 +76,6 @@ input, textarea {
   padding: .5rem;
 }
 
-.post-box p:first-of-type a {
-  display: block;
-  font-size: 125%;
-  margin-bottom: .5rem;
+.rfloat {
+  float: right;
 }
