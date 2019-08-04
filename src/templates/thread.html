@@ -15,7 +15,7 @@
     <p>#{{ post.id }}: {{ post.name }} - {{ post.post_time }}
       <span class='rfloat' style='color: #{{ post.hex_id }};'>{{ post.hex_id }}</span>
     </p>
-    <p>{{ post.content|linebreaksbr }}</p>
+    <p>{{ post.content|safe|linebreaksbr }}</p>
   </div>
 {% endfor %}
 {% endblock %}

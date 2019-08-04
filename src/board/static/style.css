@@ -5,6 +5,7 @@
   --grey: #333;
   --white: #efefef;
   --accent: #f06;
+  --quote: #0f0;
 }
 
 * {
@@ -38,6 +39,10 @@ h1, h2, h3, p {
 a {
   color: var(--accent);
   text-decoration: none;
+}
+
+span {
+  display: inline-block;
 }
 
 form {
@@ -78,4 +83,17 @@ input, textarea {
 
 .rfloat {
   float: right;
+}
+
+.quote, .spoiler:hover .quote {
+  color: var(--quote);
+}
+
+.spoiler, .spoiler .quote {
+  background-color: var(--black);
+  color: var(--black);
+}
+
+.spoiler:hover {
+  color: var(--white);
 }

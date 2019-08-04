@@ -1,4 +1,5 @@
 import socket
+import re
 from .modules import hex
 from django.shortcuts import render, get_object_or_404, redirect
 
@@ -18,6 +19,15 @@ def get_ip_address(request):
         return ip
     except socket.error:
         return False
+
+def greentext(match):
+    return "<span class='quote'>{}</span>".format(match.group())
+
+def spoiler(match):
+    string = match.group()
+    string = string.replace("[spoiler]", '')
+    string = string.replace("[/spoiler]", '')
+    return "<span class='spoiler'>{}</span>".format(string)
 
 # Create your views here.
 def board_view(request):
@@ -40,10 +50,15 @@ def board_view(request):
         else:
             name = request.POST['name']
 
+        p = re.compile("(?<!>)(>[a-zA-Z0-9]).+")
+        parsed_content = p.sub(greentext, request.POST['content'])
+        p = re.compile("\[spoiler\].+\[\/spoiler\]")
+        parsed_content = p.sub(spoiler, parsed_content)
+
         ipaddr = get_ip_address(request)
         hex_code = hex.get_hex_id(ipaddr)
 
-        new_post = Post(name=name, content=request.POST['content'], thread=new_thread, ip=ipaddr, hex_id=hex_code)
+        new_post = Post(name=name, content=parsed_content, thread=new_thread, ip=ipaddr, hex_id=hex_code)
         new_post.save()
 
         return redirect('/{}/'.format(new_thread.id))
@@ -68,10 +83,15 @@ def thread_view(request, id):
         else:
             name = request.POST['name']
 
+        p = re.compile("(?<!>)(>[a-zA-Z0-9]).+")
+        parsed_content = p.sub(greentext, request.POST['content'])
+        p = re.compile("\[spoiler\].+\[\/spoiler\]")
+        parsed_content = p.sub(spoiler, parsed_content)
+
         ipaddr = get_ip_address(request)
         hex_code = hex.get_hex_id(ipaddr)
 
-        new_post = Post(name=name, content=request.POST['content'], thread=thread, ip=ipaddr, hex_id=hex_code)
+        new_post = Post(name=name, content=parsed_content, thread=thread, ip=ipaddr, hex_id=hex_code)
         new_post.save()
 
         form = PostForm()
