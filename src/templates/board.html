@@ -15,7 +15,7 @@
       {% for post in op_posts %}
         {% if post.thread_id == thread.id %}
           <p><a href="/{{ thread.id }}/">{{ thread.subject }}</a></p>
-          <p>{{ post.content.strip|safe|linebreaksbr }}</p>
+          <div>{{ post.content.strip|safe|linebreaks }}</div>
         {% endif %}
       {% endfor %}
     </div>

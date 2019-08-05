@@ -11,11 +11,11 @@
 <h3>{{ thread.subject }}</h3>
 
 {% for post in object_list %}
-  <div class='post-box'>
+  <div class='post-box' id='{{ post.id }}'>
     <p>#{{ post.id }}: {{ post.name }} - {{ post.post_time }}
       <span class='rfloat' style='color: #{{ post.hex_id }};'>{{ post.hex_id }}</span>
     </p>
-    <p>{{ post.content|safe|linebreaksbr }}</p>
+    <div>{{ post.content|safe|linebreaks }}</div>
   </div>
 {% endfor %}
 {% endblock %}

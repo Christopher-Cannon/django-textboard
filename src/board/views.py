@@ -29,6 +29,30 @@ def spoiler(match):
     string = string.replace("[/spoiler]", '')
     return "<span class='spoiler'>{}</span>".format(string)
 
+def parse_text(content):
+    # Quotes
+    p = re.compile("(?<!>)(>[a-zA-Z0-9]).+")
+    parsed_content = p.sub(greentext, content)
+
+    # Post links
+    p = re.compile("(>>)[0-9]+")
+    iter = p.finditer(parsed_content)
+    for i in iter:
+        try:
+            linked_post = Post.objects.get(id=int(i.group()[2:]))
+            replace = "<a class='post-link' href='/{}/#{}'>{}</a>".format(linked_post.thread_id, i.group()[2:], i.group())
+            print(replace)
+        except:
+            print("Could not find post #{}".format(i.group()[2:]))
+            continue
+
+        parsed_content = parsed_content.replace(i.group(), replace)
+
+    parsed_content = parsed_content.replace("[spoiler]", "<span class='spoiler'>")
+    parsed_content = parsed_content.replace("[/spoiler]", "</span>")
+
+    return parsed_content
+
 # Create your views here.
 def board_view(request):
     thread_list = Thread.objects.all()
@@ -50,10 +74,7 @@ def board_view(request):
         else:
             name = request.POST['name']
 
-        p = re.compile("(?<!>)(>[a-zA-Z0-9]).+")
-        parsed_content = p.sub(greentext, request.POST['content'])
-        p = re.compile("\[spoiler\].+\[\/spoiler\]")
-        parsed_content = p.sub(spoiler, parsed_content)
+        parsed_content = parse_text(request.POST['content'])
 
         ipaddr = get_ip_address(request)
         hex_code = hex.get_hex_id(ipaddr)
@@ -76,6 +97,7 @@ def thread_view(request, id):
     thread = get_object_or_404(Thread, id=id)
 
     form = PostForm(request.POST or None)
+    parsed_content = ''
 
     if form.is_valid():
         if request.POST['name'] == '':
@@ -83,10 +105,7 @@ def thread_view(request, id):
         else:
             name = request.POST['name']
 
-        p = re.compile("(?<!>)(>[a-zA-Z0-9]).+")
-        parsed_content = p.sub(greentext, request.POST['content'])
-        p = re.compile("\[spoiler\].+\[\/spoiler\]")
-        parsed_content = p.sub(spoiler, parsed_content)
+        parsed_content = parse_text(request.POST['content'])
 
         ipaddr = get_ip_address(request)
         hex_code = hex.get_hex_id(ipaddr)

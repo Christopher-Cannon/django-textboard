@@ -31,9 +31,17 @@ h1 { font-size: 2.6rem; }
 h2 { font-size: 2.2rem; }
 h3 { font-size: 2rem; }
 
-h1, h2, h3, p {
+h1, h2, h3 {
   color: var(--white);
   padding: 1rem 0;
+}
+
+p {
+  line-height: 1.4rem;
+}
+
+div {
+  color: var(--white);
 }
 
 a {
@@ -43,15 +51,6 @@ a {
 
 span {
   display: inline;
-}
-/*
-Remove trailing line break in situations where spoilers contain quotes
-or vice versa, or when span.quote contains line breaks.
-
-Inconsistent line spacing occurs otherwise.
-*/
-span span + br, span > br {
-  display: none;
 }
 
 form {
@@ -86,11 +85,11 @@ input, textarea {
   width: 100%;
 }
 
-.post-box p {
+.post-box div {
   padding: 1rem .5rem;
 }
 
-.post-box p:first-of-type {
+.post-box > p:first-of-type {
   border-bottom: 1px solid var(--white);
   font-weight: bold;
   padding: .5rem;
@@ -104,7 +103,11 @@ input, textarea {
   color: var(--quote);
 }
 
-span.spoiler, span.spoiler .quote {
+span.spoiler:hover a {
+  color: var(--accent);
+}
+
+span.spoiler, span.spoiler .quote, span.spoiler a {
   background-color: var(--black);
   color: var(--black);
 }
