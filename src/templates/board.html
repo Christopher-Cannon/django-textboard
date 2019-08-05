@@ -3,8 +3,6 @@
 {% block content %}
 <hr>
 
-<h2>Board</h2>
-
 <form method='POST'> {% csrf_token %}
   {{ t_form.as_p }}
   {{ p_form.as_p }}
@@ -17,7 +15,7 @@
       {% for post in op_posts %}
         {% if post.thread_id == thread.id %}
           <p><a href="/{{ thread.id }}/">{{ thread.subject }}</a></p>
-          <p>{{ post.content }}</p>
+          <p>{{ post.content.strip|safe|linebreaksbr }}</p>
         {% endif %}
       {% endfor %}
     </div>

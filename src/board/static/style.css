@@ -17,7 +17,7 @@ body {
 }
 
 p, input, textarea {
-  font-size: 1rem;
+  font-size: .9rem;
 }
 
 textarea {
@@ -27,8 +27,8 @@ textarea {
   min-width: 100%;
 }
 
-h1 { font-size: 3rem; }
-h2 { font-size: 2.4rem; }
+h1 { font-size: 2.6rem; }
+h2 { font-size: 2.2rem; }
 h3 { font-size: 2rem; }
 
 h1, h2, h3, p {
@@ -42,7 +42,16 @@ a {
 }
 
 span {
-  display: inline-block;
+  display: inline;
+}
+/*
+Remove trailing line break in situations where spoilers contain quotes
+or vice versa, or when span.quote contains line breaks.
+
+Inconsistent line spacing occurs otherwise.
+*/
+span span + br, span > br {
+  display: none;
 }
 
 form {
@@ -50,7 +59,7 @@ form {
 }
 
 input, textarea {
-  padding: .5rem;
+  padding: .25rem;
   width: 100%;
 }
 
@@ -62,7 +71,13 @@ input, textarea {
 .grid {
   display: grid;
   grid-gap: 1rem;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.grid > .post-box {
+  height: 10rem;
+  max-height: 10rem;
+  overflow: hidden;
 }
 
 .post-box {
@@ -85,15 +100,15 @@ input, textarea {
   float: right;
 }
 
-.quote, .spoiler:hover .quote {
+.quote, span.spoiler:hover .quote {
   color: var(--quote);
 }
 
-.spoiler, .spoiler .quote {
+span.spoiler, span.spoiler .quote {
   background-color: var(--black);
   color: var(--black);
 }
 
-.spoiler:hover {
+span.spoiler:hover {
   color: var(--white);
 }
